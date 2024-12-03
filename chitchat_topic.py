@@ -225,6 +225,7 @@ if prompt := st.chat_input("Ask a question or request document summaries"):
                 st.session_state.chat_history.append({"role": "assistant", "content": summary_message})
     else:
         # Treat as a chit-chat
+        classified_topics_message = ''
         if enable_auto_topic_classification:
             if selected_topics is None:
                 # Automatically classify the topic if not selected
@@ -233,7 +234,8 @@ if prompt := st.chat_input("Ask a question or request document summaries"):
                 classified_topics_message = f"We now restrict our chat in the specific classified topics: {', '.join(selected_topics)}"
                 with st.chat_message("assistant"):
                     st.markdown(classified_topics_message)
-        prompt += classified_topics_message
+        if classified_topics_message:
+            prompt += classified_topics_message
         response = chat_with_model(prompt)
              
         # Display assistant response in chat message container
