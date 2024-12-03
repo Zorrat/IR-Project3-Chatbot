@@ -88,6 +88,13 @@ def retrieve_documents(query, top_k=3):
     return retrieved_titles, retrieved_docs, retrieved_urls
 
 
+# topic classifier
+def topic_classifier(query):
+    prompt = f"Choose the topic for this query below from (Health, Environment, Technology, Economy, Entertainment, Sports, Politics, Education, Travel, Food), if multiple topics apply to this specific query, separating multiple topics with commas. If none of the topic above applys, return \"Other\". The query: '{query}'"
+    topic = chat_with_model(prompt, max_tokens=512)
+    topic_list = [t.strip() for t in topic.split(',')]
+    return topic_list
+
 
 # Summarize a single document using the Llama model
 def summarize_document(title, content):
